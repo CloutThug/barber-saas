@@ -1,7 +1,7 @@
-import { createServer } from '@/lib/supabase-server'
+import { createClient } from '@/lib/supabase-server'
 
 export default async function Home() {
-  const supabase = await createServer()
+  const supabase = await createClient()
   // Testando a conexão buscando as barbearias cadastradas
   const { data: tenants, error } = await supabase
     .from('tenants')

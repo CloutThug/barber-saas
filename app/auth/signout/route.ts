@@ -1,10 +1,10 @@
-import { createServer } from '@/lib/supabase-server'
+import { createClient } from '@/lib/supabase-server'
 import { NextResponse } from 'next/server'
 
 import type { NextRequest } from 'next/server'
 
 export async function POST(req: NextRequest) {
-  const supabase = await createServer()
+  const supabase = await createClient()
 
   // Check if we have a session
   const {
