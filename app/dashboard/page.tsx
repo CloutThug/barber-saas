@@ -35,8 +35,19 @@ export default async function Dashboard() {
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
             Painel de Controle
           </h1>
-          <div className="text-sm text-gray-500">
-            Logado como: {user.email}
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-gray-500 hidden sm:inline">
+              {user.email}
+            </span>
+            {/* Botão de Logout */}
+            <form action="/auth/signout" method="post">
+              <button 
+                type="submit"
+                className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+              >
+                Sair
+              </button>
+            </form>
           </div>
         </div>
       </header>
