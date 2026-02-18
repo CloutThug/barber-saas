@@ -6,7 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "debug:appointments": "npx ts-node -O {\\\"module\\\":\\\"commonjs\\\"} supabase/debug-appointments.ts",
+    "supabase": "supabase",
+    "supabase:login": "supabase login",
+    "supabase:link": "supabase link --project-ref wpzrexrxlmcstzzmnoni",
+    "supabase:gen-types": "supabase gen types typescript --linked > types/supabase.ts",
+    "supabase:db": "supabase db remote connect",
+    "supabase:status": "supabase projects list"
   },
   "dependencies": {
     "@supabase/ssr": "^0.8.0",
@@ -22,6 +29,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "supabase": "^2.76.9",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
