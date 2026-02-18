@@ -65,8 +65,11 @@ async function updateCustomer(formData: FormData) {
       .single()
 
     if (planError || !plan) {
-      console.error('Plano não encontrado ou não pertence ao tenant:', planError)
-      throw new Error('Plano inválido')
+      if (planError) {
+        console.error('Erro ao validar plano:', planError)
+        throw new Error('Plano não encontrado')
+      }
+      throw new Error('Plano não pertence a este tenant')
     }
 
     // Verifica se já existe assinatura ativa
