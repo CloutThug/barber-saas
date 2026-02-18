@@ -75,6 +75,15 @@ export default async function Calendar({ year, month }: CalendarProps) {
     .lte('scheduled_at', monthEnd.toISOString())
     .order('scheduled_at', { ascending: true })
 
+  if (appointmentsError) {
+    console.error('Erro ao buscar agendamentos:', appointmentsError)
+    return (
+      <div className="bg-white rounded-lg shadow p-6">
+        <p className="text-red-600">Erro ao buscar agendamentos</p>
+      </div>
+    )
+  }
+
   const appointmentsByDate = appointments?.reduce((acc, apt) => {
     const date = format(new Date(apt.scheduled_at), 'yyyy-MM-dd')
     if (!acc[date]) {

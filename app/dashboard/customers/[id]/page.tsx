@@ -56,6 +56,19 @@ async function updateCustomer(formData: FormData) {
 
   // Gerencia assinatura
   if (customerType === 'mensalista' && planId) {
+    // Valida que o plano pertence ao tenant
+    const { data: plan, error: planError } = await supabase
+      .from('monthly_plans')
+      .select('id')
+      .eq('id', planId)
+      .eq('tenant_id', profile.tenant_id)
+      .single()
+
+    if (planError || !plan) {
+      console.error('Plano não encontrado ou não pertence ao tenant:', planError)
+      throw new Error('Plano inválido')
+    }
+
     // Verifica se já existe assinatura ativa
     const { data: existingSub } = await supabase
       .from('subscriptions')
@@ -71,6 +84,7 @@ async function updateCustomer(formData: FormData) {
         .from('subscriptions')
         .update({ plan_id: planId })
         .eq('id', existingSub.id)
+        .eq('tenant_id', profile.tenant_id)
     } else {
       // Cria nova assinatura
       const { error: subError } = await supabase

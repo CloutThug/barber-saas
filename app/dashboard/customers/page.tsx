@@ -32,7 +32,7 @@ export default async function CustomersPage(props: CustomersPageProps) {
   if (userError || !user) {
     return (
       <div className="bg-white rounded-lg shadow p-6">
-        <p className="text-red-600">Erro ao verificar usuario.</p>
+        <p className="text-red-600">Erro ao verificar usuário.</p>
       </div>
     )
   }
@@ -46,7 +46,7 @@ export default async function CustomersPage(props: CustomersPageProps) {
   if (profileError || !profile?.tenant_id) {
     return (
       <div className="bg-white rounded-lg shadow p-6">
-        <p className="text-red-600">Erro ao buscar informacoes do usuario.</p>
+        <p className="text-red-600">Erro ao buscar informações do usuário.</p>
       </div>
     )
   }
@@ -101,7 +101,7 @@ export default async function CustomersPage(props: CustomersPageProps) {
             Clientes
           </h1>
           <p className="mt-2 text-sm text-gray-700">
-            Gerencie seus clientes e veja quem e mensalista
+            Gerencie seus clientes e veja quem é mensalista
           </p>
         </div>
         <Link

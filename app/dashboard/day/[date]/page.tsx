@@ -23,7 +23,7 @@ const STATUS_BADGES: Record<
     className: 'bg-rose-100 text-rose-700 ring-rose-200',
   },
   done: {
-    label: 'Concluido',
+    label: 'Concluído',
     className: 'bg-emerald-100 text-emerald-700 ring-emerald-200',
   },
   default: {
@@ -43,7 +43,7 @@ export default async function DayPage(props: DayPageProps) {
   if (!isValid(parsedDate)) {
     return (
       <div className="bg-white rounded-lg shadow p-6">
-        <p className="text-red-600">Data invalida.</p>
+        <p className="text-red-600">Data inválida.</p>
       </div>
     )
   }
@@ -58,7 +58,7 @@ export default async function DayPage(props: DayPageProps) {
   if (userError || !user) {
     return (
       <div className="bg-white rounded-lg shadow p-6">
-        <p className="text-red-600">Erro ao verificar usuario.</p>
+        <p className="text-red-600">Erro ao verificar usuário.</p>
       </div>
     )
   }
@@ -72,7 +72,7 @@ export default async function DayPage(props: DayPageProps) {
   if (profileError || !profile?.tenant_id) {
     return (
       <div className="bg-white rounded-lg shadow p-6">
-        <p className="text-red-600">Erro ao buscar informacoes do usuario.</p>
+        <p className="text-red-600">Erro ao buscar informações do usuário.</p>
       </div>
     )
   }
@@ -169,7 +169,7 @@ export default async function DayPage(props: DayPageProps) {
                                 {apt.customers?.name || 'Sem nome'}
                               </div>
                               <div className="text-gray-700">
-                                {apt.services?.name || 'Servico'}
+                                {apt.services?.name || 'Serviço'}
                               </div>
                               <span
                                 className={`mt-2 inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset ${badge.className}`}
