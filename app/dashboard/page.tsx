@@ -1,16 +1,10 @@
 import { createClient } from '@/lib/supabase-server'
-import { redirect } from 'next/navigation'
+import Link from 'next/link'
 
 export default async function Dashboard() {
   const supabase = await createClient()
 
-  // 1. Verifica usuario logado
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    redirect('/login')
-  }
-
-  // 2. Busca os agendamentos com os relacionamentos (Cliente e Serviço)
+  // Busca os agendamentos com os relacionamentos (Cliente e Serviço)
   // O RLS garante que só venham os dados da sua barbearia
   const { data: appointments, error } = await supabase
     .from('appointments')
@@ -28,22 +22,27 @@ export default async function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Cabeçalho Simples */}
-      <header className="bg-white shadow">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center">
+    <div>
+      {/* Título da Página */}
+      <div className="mb-6 flex items-center justify-between">
+        <div>
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            Painel de Controle
+            Agenda
           </h1>
-          <div className="text-sm text-gray-500">
-            Logado como: {user.email}
-          </div>
+          <p className="mt-2 text-sm text-gray-700">
+            Gerencie seus agendamentos e horários
+          </p>
         </div>
-      </header>
+        <Link
+          href="/dashboard/appointments/new"
+          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        >
+          + Novo Agendamento
+        </Link>
+      </div>
 
-      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        {/* Card de Próximos Agendamentos */}
-        <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
+      {/* Card de Próximos Agendamentos */}
+      <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
           <div className="border-b border-gray-200 pb-5 mb-5">
             <h3 className="text-base font-semibold leading-6 text-gray-900">
               Próximos Agendamentos
@@ -94,7 +93,7 @@ export default async function Dashboard() {
             </div>
           )}
         </div>
-      </main>
+
     </div>
   )
 }
