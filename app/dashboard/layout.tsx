@@ -51,6 +51,12 @@ export default async function DashboardLayout({
               >
                 ✂️ Serviços
               </Link>
+              <Link
+                href="/dashboard/settings/plans"
+                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
+              >
+                💳 Planos
+              </Link>
             </nav>
             <div className="border-t border-gray-200 px-4 py-3">
               <p className="text-sm text-gray-500 truncate mb-2">{user.email}</p>
@@ -105,6 +111,15 @@ export default async function DashboardLayout({
                     >
                       <span className="text-xl">✂️</span>
                       Serviços
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/dashboard/settings/plans"
+                      className="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold text-gray-700 hover:text-indigo-600 hover:bg-gray-50"
+                    >
+                      <span className="text-xl">💳</span>
+                      Planos
                     </Link>
                   </li>
                 </ul>
