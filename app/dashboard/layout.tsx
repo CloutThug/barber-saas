@@ -40,7 +40,7 @@ export default async function DashboardLayout({
                 📅 Agenda
               </Link>
               <Link
-                href="/dashboard/clientes"
+                href="/dashboard/customers"
                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
               >
                 👥 Clientes
@@ -91,7 +91,7 @@ export default async function DashboardLayout({
                   </li>
                   <li>
                     <Link
-                      href="/dashboard/clientes"
+                      href="/dashboard/customers"
                       className="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold text-gray-700 hover:text-indigo-600 hover:bg-gray-50"
                     >
                       <span className="text-xl">👥</span>

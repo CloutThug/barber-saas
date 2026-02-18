@@ -37,11 +37,17 @@ async function createAppointment(formData: FormData) {
     // Extrai os dados do formulário
     const customer_id = formData.get('customer_id') as string
     const service_id = formData.get('service_id') as string
-    const scheduled_at = formData.get('scheduled_at') as string
+    const scheduled_date = formData.get('scheduled_date') as string
+    const scheduled_time = formData.get('scheduled_time') as string
+
+    // Combina data e hora no formato ISO
+    const scheduled_at = scheduled_date && scheduled_time 
+      ? `${scheduled_date}T${scheduled_time}:00`
+      : null
 
     // Valida os dados
     if (!customer_id || !service_id || !scheduled_at) {
-      console.error('Dados incompletos:', { customer_id, service_id, scheduled_at })
+      console.error('Dados incompletos:', { customer_id, service_id, scheduled_date, scheduled_time, scheduled_at })
       throw new Error('Todos os campos são obrigatórios')
     }
 
@@ -118,7 +124,15 @@ async function createAppointment(formData: FormData) {
   }
 }
 
-export default async function NewAppointmentPage() {
+interface NewAppointmentPageProps {
+  searchParams?: Promise<{ date?: string; time?: string }>
+}
+
+export default async function NewAppointmentPage(props: NewAppointmentPageProps) {
+  const searchParams = await props.searchParams
+  const dateParam = searchParams?.date
+  const timeParam = searchParams?.time
+
   const supabase = await createClient()
 
   // Verifica usuário logado
@@ -136,6 +150,19 @@ export default async function NewAppointmentPage() {
 
   if (!profile?.tenant_id) {
     return <div>Erro: Tenant não encontrado</div>
+  }
+
+  const { data: tenantSettings, error: tenantSettingsError } = await supabase
+    .from('tenants')
+    .select('default_appointment_time')
+    .eq('id', profile.tenant_id)
+    .single()
+
+  if (tenantSettingsError?.message) {
+    console.warn(
+      'Aviso ao buscar configuracoes do tenant:',
+      tenantSettingsError.message
+    )
   }
 
   // Busca clientes do tenant (RLS já filtra automaticamente)
@@ -158,11 +185,25 @@ export default async function NewAppointmentPage() {
     console.error('Erro ao buscar serviços:', servicesError)
   }
 
-  // Gera a data e hora atual no formato datetime-local
+  // Gera a data e hora atual separadamente
   const now = new Date()
-  const localDatetime = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+  const localDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
     .toISOString()
-    .slice(0, 16)
+    .slice(0, 10)
+  const localTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+    .toISOString()
+    .slice(11, 16)
+
+  const datePattern = /^\d{4}-\d{2}-\d{2}$/
+  const timePattern = /^\d{2}:\d{2}$/
+  
+  const tenantDefaultTime = tenantSettings?.default_appointment_time
+    ? tenantSettings.default_appointment_time.slice(0, 5)
+    : '09:00'
+
+  // Define valores padrão com base nos parâmetros da URL ou valores atuais
+  const defaultDate = dateParam && datePattern.test(dateParam) ? dateParam : localDate
+  const defaultTime = timeParam && timePattern.test(timeParam) ? timeParam : tenantDefaultTime
 
   return (
     <div>
@@ -231,18 +272,36 @@ export default async function NewAppointmentPage() {
           </div>
 
           {/* Campo Data e Hora */}
-          <div>
-            <label htmlFor="scheduled_at" className="block text-sm font-medium leading-6 text-gray-900">
-              Data e Hora <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="datetime-local"
-              id="scheduled_at"
-              name="scheduled_at"
-              required
-              defaultValue={localDatetime}
-              className="mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            {/* Campo Data */}
+            <div>
+              <label htmlFor="scheduled_date" className="block text-sm font-medium leading-6 text-gray-900">
+                Data <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="date"
+                id="scheduled_date"
+                name="scheduled_date"
+                required
+                defaultValue={defaultDate}
+                className="mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+
+            {/* Campo Hora */}
+            <div>
+              <label htmlFor="scheduled_time" className="block text-sm font-medium leading-6 text-gray-900">
+                Hora <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="time"
+                id="scheduled_time"
+                name="scheduled_time"
+                required
+                defaultValue={defaultTime}
+                className="mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
           </div>
 
           {/* Botões */}
