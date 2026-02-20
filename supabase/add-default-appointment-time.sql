@@ -1,0 +1,6 @@
+-- NOTE: This file is intentionally left without executable SQL.
+-- The actual migration is defined in:
+--   supabase/migrations/20260218_add_default_appointment_time.sql
+--
+-- Keeping this file as a no-op avoids having duplicate migration logic
+-- while preserving compatibility with any tooling that may still reference it.

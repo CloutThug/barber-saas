@@ -349,18 +349,21 @@ export type Database = {
       tenants: {
         Row: {
           created_at: string | null
+          default_appointment_time: string
           id: string
           name: string
           slug: string
         }
         Insert: {
           created_at?: string | null
+          default_appointment_time?: string
           id?: string
           name: string
           slug: string
         }
         Update: {
           created_at?: string | null
+          default_appointment_time?: string
           id?: string
           name?: string
           slug?: string
