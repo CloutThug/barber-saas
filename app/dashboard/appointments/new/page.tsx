@@ -160,7 +160,7 @@ export default async function NewAppointmentPage(props: NewAppointmentPageProps)
 
   if (tenantSettingsError?.message) {
     console.warn(
-      'Aviso ao buscar configuracoes do tenant:',
+      'Aviso ao buscar configurações do tenant:',
       tenantSettingsError.message
     )
   }
