@@ -15,10 +15,10 @@ export default async function Dashboard(props: DashboardProps) {
       {/* Título da Página */}
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          <h1 className="text-foreground text-3xl font-bold tracking-tight">
             Agenda
           </h1>
-          <p className="mt-2 text-sm text-gray-700">
+          <p className="text-muted-foreground mt-2 text-sm">
             Gerencie seus agendamentos e horários do mês
           </p>
         </div>

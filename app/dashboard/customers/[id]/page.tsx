@@ -141,7 +141,7 @@ export default async function EditCustomerPage(props: EditCustomerPageProps) {
 
   if (!profile?.tenant_id) {
     return (
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-card rounded-lg shadow p-6">
         <p className="text-red-600">Erro ao buscar informações do usuário.</p>
       </div>
     )
@@ -183,15 +183,15 @@ export default async function EditCustomerPage(props: EditCustomerPageProps) {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+        <h1 className="text-3xl font-bold tracking-tight text-foreground">
           Editar Cliente
         </h1>
-        <p className="mt-2 text-sm text-gray-700">
+        <p className="mt-2 text-sm text-muted-foreground">
           Atualize os dados e o tipo de assinatura do cliente
         </p>
       </div>
 
-      <div className="overflow-hidden rounded-lg bg-white shadow">
+      <div className="overflow-hidden rounded-lg bg-card shadow">
         <form action={updateCustomer} className="p-6 space-y-6">
           <input type="hidden" name="customer_id" value={customer.id} />
 
@@ -199,7 +199,7 @@ export default async function EditCustomerPage(props: EditCustomerPageProps) {
           <div>
             <label
               htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-muted-foreground"
             >
               Nome <span className="text-red-500">*</span>
             </label>
@@ -210,7 +210,7 @@ export default async function EditCustomerPage(props: EditCustomerPageProps) {
               required
               defaultValue={customer.name}
               placeholder="Nome completo do cliente"
-              className="mt-1 block w-full rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-0 px-3 py-2 bg-background text-foreground shadow-sm ring-1 ring-inset ring-border placeholder:text-muted-foreground focus:ring-2 focus:ring-inset focus:ring-ring sm:text-sm"
             />
           </div>
 
@@ -218,7 +218,7 @@ export default async function EditCustomerPage(props: EditCustomerPageProps) {
           <div>
             <label
               htmlFor="phone"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-muted-foreground"
             >
               Telefone
             </label>
@@ -226,7 +226,7 @@ export default async function EditCustomerPage(props: EditCustomerPageProps) {
               name="phone"
               id="phone"
               defaultValue={customer.phone}
-              className="mt-1 block w-full rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-0 px-3 py-2 bg-background text-foreground shadow-sm ring-1 ring-inset ring-border placeholder:text-muted-foreground focus:ring-2 focus:ring-inset focus:ring-ring sm:text-sm"
             />
           </div>
 
@@ -238,16 +238,16 @@ export default async function EditCustomerPage(props: EditCustomerPageProps) {
           />
 
           {/* Botões */}
-          <div className="flex items-center justify-end gap-3 border-t border-gray-200 pt-6">
+          <div className="flex items-center justify-end gap-3 border-t border-border pt-6">
             <Link
               href="/dashboard/customers"
-              className="rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:text-gray-900"
+              className="rounded-md px-3 py-2 text-sm font-semibold text-muted-foreground hover:text-foreground"
             >
               Cancelar
             </Link>
             <button
               type="submit"
-              className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
               Salvar
             </button>

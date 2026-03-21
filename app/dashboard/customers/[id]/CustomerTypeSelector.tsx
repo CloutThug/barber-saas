@@ -27,7 +27,7 @@ export default function CustomerTypeSelector({
       <div>
         <label
           htmlFor="customer_type"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-muted-foreground"
         >
           Tipo de Cliente
         </label>
@@ -36,7 +36,7 @@ export default function CustomerTypeSelector({
           name="customer_type"
           value={customerType}
           onChange={(e) => setCustomerType(e.target.value)}
-          className="mt-1 block w-full rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+          className="mt-1 block w-full rounded-md border-0 px-3 py-2 bg-background text-foreground shadow-sm ring-1 ring-inset ring-border focus:ring-2 focus:ring-inset focus:ring-ring sm:text-sm"
         >
           <option value="avulso">Avulso</option>
           <option value="mensalista">Mensalista</option>
@@ -48,7 +48,7 @@ export default function CustomerTypeSelector({
         <div>
           <label
             htmlFor="plan_id"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium text-muted-foreground"
           >
             Plano Mensal <span className="text-red-500">*</span>
           </label>
@@ -58,7 +58,7 @@ export default function CustomerTypeSelector({
               name="plan_id"
               required
               defaultValue={defaultPlanId}
-              className="mt-1 block w-full rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-0 px-3 py-2 bg-background text-foreground shadow-sm ring-1 ring-inset ring-border focus:ring-2 focus:ring-inset focus:ring-ring sm:text-sm"
             >
               <option value="">Selecione um plano</option>
               {plans.map((plan) => (

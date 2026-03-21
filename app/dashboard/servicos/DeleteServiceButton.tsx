@@ -1,14 +1,14 @@
 'use client'
 
-interface DeletePlanButtonProps {
-  planId: string
-  planName: string
+interface DeleteServiceButtonProps {
+  serviceId: string
+  serviceName: string
   onDelete: (formData: FormData) => void
 }
 
-export function DeletePlanButton({ planId, planName, onDelete }: DeletePlanButtonProps) {
+export function DeleteServiceButton({ serviceId, serviceName, onDelete }: DeleteServiceButtonProps) {
   const handleDelete = (e: React.FormEvent<HTMLFormElement>) => {
-    if (!confirm(`Tem certeza que deseja deletar o plano "${planName}"?`)) {
+    if (!confirm(`Tem certeza que deseja deletar o serviço "${serviceName}"?`)) {
       e.preventDefault()
       return
     }
@@ -16,7 +16,7 @@ export function DeletePlanButton({ planId, planName, onDelete }: DeletePlanButto
 
   return (
     <form action={onDelete} onSubmit={handleDelete} className="inline">
-      <input type="hidden" name="plan_id" value={planId} />
+      <input type="hidden" name="service_id" value={serviceId} />
       <button
         type="submit"
         className="text-destructive hover:text-destructive/80 font-medium hover:underline"
