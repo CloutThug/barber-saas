@@ -31,7 +31,7 @@ export default async function CustomersPage(props: CustomersPageProps) {
 
   if (userError || !user) {
     return (
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-card rounded-lg shadow p-6">
         <p className="text-red-600">Erro ao verificar usuário.</p>
       </div>
     )
@@ -45,7 +45,7 @@ export default async function CustomersPage(props: CustomersPageProps) {
 
   if (profileError || !profile?.tenant_id) {
     return (
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-card rounded-lg shadow p-6">
         <p className="text-red-600">Erro ao buscar informações do usuário.</p>
       </div>
     )
@@ -67,7 +67,7 @@ export default async function CustomersPage(props: CustomersPageProps) {
 
   if (customersError || subscriptionsError) {
     return (
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-card rounded-lg shadow p-6">
         <p className="text-red-600">Erro ao carregar clientes.</p>
       </div>
     )
@@ -97,16 +97,16 @@ export default async function CustomersPage(props: CustomersPageProps) {
     <div>
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
             Clientes
           </h1>
-          <p className="mt-2 text-sm text-gray-700">
+          <p className="mt-2 text-sm text-muted-foreground">
             Gerencie seus clientes e veja quem é mensalista
           </p>
         </div>
         <Link
           href="/dashboard/customers/new"
-          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
+          className="rounded-md bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90"
         >
           Cadastrar Novo Cliente
         </Link>
@@ -117,8 +117,8 @@ export default async function CustomersPage(props: CustomersPageProps) {
           href="/dashboard/customers"
           className={`rounded-full px-3 py-1 text-xs font-semibold ring-1 ring-inset transition-colors ${
             normalizedStatus === 'all'
-              ? 'bg-indigo-100 text-indigo-700 ring-indigo-200'
-              : 'bg-white text-gray-600 ring-gray-200 hover:bg-gray-50'
+              ? 'bg-primary/20 text-primary ring-primary/30'
+              : 'bg-card text-muted-foreground ring-border hover:bg-secondary'
           }`}
         >
           Todos
@@ -127,8 +127,8 @@ export default async function CustomersPage(props: CustomersPageProps) {
           href="/dashboard/customers?status=mensalista"
           className={`rounded-full px-3 py-1 text-xs font-semibold ring-1 ring-inset transition-colors ${
             normalizedStatus === 'mensalista'
-              ? 'bg-emerald-100 text-emerald-700 ring-emerald-200'
-              : 'bg-white text-gray-600 ring-gray-200 hover:bg-gray-50'
+              ? 'bg-primary/20 text-primary ring-primary/30'
+              : 'bg-card text-muted-foreground ring-border hover:bg-secondary'
           }`}
         >
           Mensalista
@@ -137,55 +137,55 @@ export default async function CustomersPage(props: CustomersPageProps) {
           href="/dashboard/customers?status=avulso"
           className={`rounded-full px-3 py-1 text-xs font-semibold ring-1 ring-inset transition-colors ${
             normalizedStatus === 'avulso'
-              ? 'bg-gray-100 text-gray-700 ring-gray-200'
-              : 'bg-white text-gray-600 ring-gray-200 hover:bg-gray-50'
+              ? 'bg-muted text-muted-foreground ring-border'
+              : 'bg-card text-muted-foreground ring-border hover:bg-secondary'
           }`}
         >
           Avulso
         </Link>
       </div>
 
-      <div className="overflow-hidden rounded-lg bg-white shadow">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+      <div className="overflow-hidden rounded-lg bg-card shadow">
+        <table className="min-w-full divide-y divide-border">
+          <thead className="bg-secondary">
             <tr>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+                className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground"
               >
                 Nome
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+                className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground"
               >
                 Telefone
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+                className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground"
               >
                 Status
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100 bg-white">
+          <tbody className="divide-y divide-border bg-card stagger-list">
             {(filteredCustomers as CustomerRow[] | null)?.map((customer) => {
               const subscription = subscriptionByCustomer.get(customer.id)
               const isSubscriber = Boolean(subscription)
               const planName = subscription?.monthly_plans?.name
 
               return (
-                <tr key={customer.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                <tr key={customer.id} className="hover:bg-secondary transition-colors">
+                  <td className="px-6 py-4 text-sm font-medium text-foreground">
                     <Link
                       href={`/dashboard/customers/${customer.id}`}
-                      className="text-indigo-600 hover:text-indigo-900 hover:underline"
+                      className="text-primary hover:text-primary/80 hover:underline"
                     >
                       {customer.name}
                     </Link>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-700">
+                  <td className="px-6 py-4 text-sm text-muted-foreground">
                     {customer.phone
                       ? customer.phone.replace(
                           /^(\d{2})(\d{5})(\d{4})$/,
@@ -193,19 +193,19 @@ export default async function CustomersPage(props: CustomersPageProps) {
                         )
                       : 'Não informado'}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-700">
+                  <td className="px-6 py-4 text-sm text-muted-foreground">
                     <div className="flex flex-col gap-1">
                       <span
                         className={`inline-flex w-fit items-center rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset ${
                           isSubscriber
-                            ? 'bg-emerald-100 text-emerald-700 ring-emerald-200'
-                            : 'bg-gray-100 text-gray-700 ring-gray-200'
+                            ? 'bg-primary/20 text-primary ring-primary/30'
+                            : 'bg-muted text-muted-foreground ring-border'
                         }`}
                       >
                         {isSubscriber ? 'Mensalista' : 'Avulso'}
                       </span>
                       {isSubscriber && planName ? (
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs text-muted-foreground">
                           Plano: {planName}
                         </span>
                       ) : null}
@@ -218,7 +218,7 @@ export default async function CustomersPage(props: CustomersPageProps) {
               <tr>
                 <td
                   colSpan={3}
-                  className="px-6 py-8 text-center text-sm text-gray-500"
+                  className="px-6 py-8 text-center text-sm text-muted-foreground"
                 >
                   Nenhum cliente encontrado para esse filtro.
                 </td>

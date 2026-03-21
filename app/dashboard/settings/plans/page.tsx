@@ -203,24 +203,24 @@ export default async function PlansPage() {
     <div>
       {/* Cabeçalho */}
       <div className="mb-6">
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+        <h1 className="text-3xl font-bold tracking-tight text-foreground">
           Planos Mensais
         </h1>
-        <p className="mt-2 text-sm text-gray-700">
+        <p className="mt-2 text-sm text-muted-foreground">
           Gerencie os planos de assinatura mensal para seus clientes
         </p>
       </div>
 
       {/* Formulário para criar novo plano */}
-      <div className="mb-8 overflow-hidden rounded-lg bg-white shadow">
-        <div className="border-b border-gray-200 bg-gray-50 px-6 py-4">
-          <h2 className="text-lg font-semibold text-gray-900">Novo Plano</h2>
+      <div className="mb-8 overflow-hidden rounded-lg bg-card shadow">
+        <div className="border-b border-border bg-secondary px-6 py-4">
+          <h2 className="text-lg font-semibold text-foreground">Novo Plano</h2>
         </div>
         <form action={createPlan} className="space-y-6 p-6">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             {/* Nome do Plano */}
             <div>
-              <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="name" className="block text-sm font-medium leading-6 text-foreground">
                 Nome do Plano <span className="text-red-500">*</span>
               </label>
               <input
@@ -229,13 +229,13 @@ export default async function PlansPage() {
                 name="name"
                 required
                 placeholder="Ex: Plano Prata"
-                className="mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="mt-2 block w-full rounded-md border-0 py-1.5 px-3 bg-background text-foreground ring-1 ring-inset ring-border placeholder:text-muted-foreground focus:ring-2 focus:ring-inset focus:ring-ring sm:text-sm sm:leading-6"
               />
             </div>
 
             {/* Valor Mensal */}
             <div>
-              <label htmlFor="price" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="price" className="block text-sm font-medium leading-6 text-foreground">
                 Valor Mensal (R$) <span className="text-red-500">*</span>
               </label>
               <input
@@ -246,13 +246,13 @@ export default async function PlansPage() {
                 step="0.01"
                 min="0"
                 placeholder="99.90"
-                className="mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="mt-2 block w-full rounded-md border-0 py-1.5 px-3 bg-background text-foreground ring-1 ring-inset ring-border placeholder:text-muted-foreground focus:ring-2 focus:ring-inset focus:ring-ring sm:text-sm sm:leading-6"
               />
             </div>
 
             {/* Créditos por Mês */}
             <div>
-              <label htmlFor="credits_per_month" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="credits_per_month" className="block text-sm font-medium leading-6 text-foreground">
                 Créditos/Cortes por Mês <span className="text-red-500">*</span>
               </label>
               <input
@@ -262,15 +262,15 @@ export default async function PlansPage() {
                 required
                 min="1"
                 placeholder="4"
-                className="mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="mt-2 block w-full rounded-md border-0 py-1.5 px-3 bg-background text-foreground ring-1 ring-inset ring-border placeholder:text-muted-foreground focus:ring-2 focus:ring-inset focus:ring-ring sm:text-sm sm:leading-6"
               />
             </div>
           </div>
 
-          <div className="flex justify-end border-t border-gray-200 pt-4">
+          <div className="flex justify-end border-t border-border pt-4">
             <button
               type="submit"
-              className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
               Criar Plano
             </button>
@@ -279,48 +279,48 @@ export default async function PlansPage() {
       </div>
 
       {/* Tabela de Planos */}
-      <div className="overflow-hidden rounded-lg bg-white shadow">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+      <div className="overflow-hidden rounded-lg bg-card shadow">
+        <table className="min-w-full divide-y divide-border">
+          <thead className="bg-secondary">
             <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                 Nome
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                 Valor Mensal
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                 Créditos/Mês
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                 Clientes Ativos
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                 Ações
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100 bg-white">
+          <tbody className="divide-y divide-border bg-card">
             {(plans as PlanRow[] | null)?.map((plan) => {
               const activeCount = subscriptionCountByPlan.get(plan.id) || 0
               const canDelete = activeCount === 0
 
               return (
-                <tr key={plan.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                <tr key={plan.id} className="hover:bg-secondary transition-colors">
+                  <td className="px-6 py-4 text-sm font-medium text-foreground">
                     {plan.name}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-700">
+                  <td className="px-6 py-4 text-sm text-muted-foreground">
                     R$ {plan.price.toFixed(2).replace('.', ',')}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-700">
+                  <td className="px-6 py-4 text-sm text-muted-foreground">
                     {plan.credits_per_month} créditos
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-700">
+                  <td className="px-6 py-4 text-sm text-muted-foreground">
                     <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
                       activeCount > 0
-                        ? 'bg-emerald-100 text-emerald-700'
-                        : 'bg-gray-100 text-gray-700'
+                        ? 'bg-primary/20 text-primary'
+                        : 'bg-muted text-muted-foreground'
                     }`}>
                       {activeCount}
                     </span>
@@ -329,7 +329,7 @@ export default async function PlansPage() {
                     {canDelete ? (
                       <DeletePlanButton planId={plan.id} planName={plan.name} onDelete={deletePlan} />
                     ) : (
-                      <span className="text-gray-400 cursor-not-allowed text-xs" title="Não pode deletar plano com clientes ativos">
+                      <span className="text-muted-foreground cursor-not-allowed text-xs" title="Não pode deletar plano com clientes ativos">
                         Plano em uso
                       </span>
                     )}
@@ -339,7 +339,7 @@ export default async function PlansPage() {
             })}
             {(!plans || plans.length === 0) && (
               <tr>
-                <td colSpan={5} className="px-6 py-8 text-center text-sm text-gray-500">
+                <td colSpan={5} className="px-6 py-8 text-center text-sm text-muted-foreground">
                   Nenhum plano cadastrado ainda.
                 </td>
               </tr>

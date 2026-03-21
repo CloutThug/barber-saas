@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase-browser'
 import { useRouter } from 'next/navigation'
+import { ScissorsIcon } from 'lucide-react'
 
-// Componente para o formulário de Login
 function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -18,14 +18,10 @@ function LoginForm() {
     setLoading(true)
     setError(null)
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
+    const { error } = await supabase.auth.signInWithPassword({ email, password })
 
     if (error) {
-      setError('Credenciais inválidas. Verifique seu email e senha.')
-      console.error('Erro no login:', error.message)
+      setError('Credenciais invalidas. Verifique seu email e senha.')
     } else {
       router.push('/dashboard')
       router.refresh()
@@ -34,55 +30,43 @@ function LoginForm() {
   }
 
   return (
-    <form className="space-y-6" onSubmit={handleLogin}>
+    <form className="space-y-4" onSubmit={handleLogin}>
       {error && (
-        <div className="rounded-md bg-red-50 p-4">
-          <p className="text-sm font-medium text-red-800">{error}</p>
+        <div className="rounded-md bg-destructive/10 border border-destructive/20 p-3">
+          <p className="text-sm font-medium text-destructive">{error}</p>
         </div>
       )}
-      <div className="rounded-md shadow-sm -space-y-px">
-        <div>
-          <input
-            id="email-address-login"
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            className="relative block w-full rounded-t-md border-0 px-3 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div>
-          <input
-            id="password-login"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            required
-            className="relative block w-full rounded-b-md border-0 px-3 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            placeholder="Senha"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+      <div className="space-y-3">
+        <input
+          type="email"
+          autoComplete="email"
+          required
+          className="block w-full rounded-md border-0 px-3 py-2.5 bg-secondary text-foreground ring-1 ring-inset ring-border placeholder:text-muted-foreground focus:ring-2 focus:ring-primary sm:text-sm transition-all duration-200"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          autoComplete="current-password"
+          required
+          className="block w-full rounded-md border-0 px-3 py-2.5 bg-secondary text-foreground ring-1 ring-inset ring-border placeholder:text-muted-foreground focus:ring-2 focus:ring-primary sm:text-sm transition-all duration-200"
+          placeholder="Senha"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
       </div>
-
-      <div>
-        <button
-          type="submit"
-          disabled={loading}
-          className="group relative flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50"
-        >
-          {loading ? 'Carregando...' : 'Entrar'}
-        </button>
-      </div>
+      <button
+        type="submit"
+        disabled={loading}
+        className="flex w-full justify-center rounded-md bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 active:scale-[0.97] transition-all duration-150 disabled:opacity-50"
+      >
+        {loading ? 'Entrando...' : 'Entrar'}
+      </button>
     </form>
   )
 }
 
-// Componente para o formulário de Cadastro
 function SignUpForm() {
   const [name, setName] = useState('')
   const [tenantName, setTenantName] = useState('')
@@ -97,7 +81,7 @@ function SignUpForm() {
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
     if (password !== confirmPassword) {
-      setError('As senhas não conferem.')
+      setError('As senhas nao conferem.')
       return
     }
     setLoading(true)
@@ -125,90 +109,72 @@ function SignUpForm() {
 
   if (success) {
     return (
-      <div className="rounded-md bg-green-50 p-4 text-center">
-        <h3 className="text-lg font-medium text-green-800">Cadastro realizado!</h3>
-        <p className="mt-2 text-sm text-green-700">
-          Enviamos um link de confirmação para o seu email. Por favor, verifique sua caixa de entrada para ativar sua conta.
+      <div className="rounded-md bg-primary/10 border border-primary/20 p-4 text-center animate-fade-in">
+        <h3 className="text-lg font-medium text-primary">Cadastro realizado!</h3>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Enviamos um link de confirmacao para o seu email. Verifique sua caixa de entrada para ativar sua conta.
         </p>
       </div>
     )
   }
-  
+
   return (
-    <form className="space-y-6" onSubmit={handleSignUp}>
-       {error && (
-        <div className="rounded-md bg-red-50 p-4">
-          <p className="text-sm font-medium text-red-800">{error}</p>
+    <form className="space-y-4" onSubmit={handleSignUp}>
+      {error && (
+        <div className="rounded-md bg-destructive/10 border border-destructive/20 p-3">
+          <p className="text-sm font-medium text-destructive">{error}</p>
         </div>
       )}
-      <div className="rounded-md shadow-sm -space-y-px">
-         <div>
-          <input
-            name="name"
-            type="text"
-            required
-            className="relative block w-full rounded-t-md border-0 px-3 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            placeholder="Seu nome completo"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-        <div>
-          <input
-            name="tenantName"
-            type="text"
-            required
-            className="relative block w-full border-0 px-3 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            placeholder="Nome da Barbearia"
-            value={tenantName}
-            onChange={(e) => setTenantName(e.target.value)}
-          />
-        </div>
-        <div>
-          <input
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            className="relative block w-full border-0 px-3 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div>
-          <input
-            name="password"
-            type="password"
-            required
-            className="relative block w-full border-0 px-3 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            placeholder="Senha"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <div>
-          <input
-            name="confirmPassword"
-            type="password"
-            required
-            className="relative block w-full rounded-b-md border-0 px-3 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            placeholder="Confirme a Senha"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </div>
+      <div className="space-y-3">
+        <input
+          type="text"
+          required
+          className="block w-full rounded-md border-0 px-3 py-2.5 bg-secondary text-foreground ring-1 ring-inset ring-border placeholder:text-muted-foreground focus:ring-2 focus:ring-primary sm:text-sm transition-all duration-200"
+          placeholder="Seu nome completo"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <input
+          type="text"
+          required
+          className="block w-full rounded-md border-0 px-3 py-2.5 bg-secondary text-foreground ring-1 ring-inset ring-border placeholder:text-muted-foreground focus:ring-2 focus:ring-primary sm:text-sm transition-all duration-200"
+          placeholder="Nome da Barbearia"
+          value={tenantName}
+          onChange={(e) => setTenantName(e.target.value)}
+        />
+        <input
+          type="email"
+          autoComplete="email"
+          required
+          className="block w-full rounded-md border-0 px-3 py-2.5 bg-secondary text-foreground ring-1 ring-inset ring-border placeholder:text-muted-foreground focus:ring-2 focus:ring-primary sm:text-sm transition-all duration-200"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          required
+          className="block w-full rounded-md border-0 px-3 py-2.5 bg-secondary text-foreground ring-1 ring-inset ring-border placeholder:text-muted-foreground focus:ring-2 focus:ring-primary sm:text-sm transition-all duration-200"
+          placeholder="Senha"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <input
+          type="password"
+          required
+          className="block w-full rounded-md border-0 px-3 py-2.5 bg-secondary text-foreground ring-1 ring-inset ring-border placeholder:text-muted-foreground focus:ring-2 focus:ring-primary sm:text-sm transition-all duration-200"
+          placeholder="Confirme a Senha"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
       </div>
-
-      <div>
-        <button
-          type="submit"
-          disabled={loading}
-          className="group relative flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50"
-        >
-          {loading ? 'Criando conta...' : 'Criar conta grátis'}
-        </button>
-      </div>
+      <button
+        type="submit"
+        disabled={loading}
+        className="flex w-full justify-center rounded-md bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 active:scale-[0.97] transition-all duration-150 disabled:opacity-50"
+      >
+        {loading ? 'Criando conta...' : 'Criar conta gratis'}
+      </button>
     </form>
   )
 }
@@ -217,28 +183,33 @@ export default function LoginPage() {
   const [activeTab, setActiveTab] = useState<'login' | 'signup'>('login')
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 py-12 animate-fade-in">
       <div className="w-full max-w-md">
+        {/* Logo e titulo */}
         <div className="mb-8 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <ScissorsIcon className="size-8 text-primary" />
+          </div>
+          <h2 className="text-3xl font-bold tracking-tight text-foreground">
             Barber SaaS
           </h2>
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="mt-1 text-sm text-muted-foreground">
             {activeTab === 'login'
               ? 'Entre para gerenciar sua barbearia'
               : 'Crie sua conta e comece a usar'}
           </p>
         </div>
-        
-        <div className="mb-4 border-b border-gray-200">
+
+        {/* Tabs */}
+        <div className="mb-6 border-b border-border">
           <nav className="-mb-px flex space-x-8" aria-label="Tabs">
             <button
               onClick={() => setActiveTab('login')}
               className={`${
                 activeTab === 'login'
-                  ? 'border-indigo-500 text-indigo-600'
-                  : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-              } whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium`}
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-muted-foreground hover:border-border hover:text-foreground'
+              } whitespace-nowrap border-b-2 px-1 py-3 text-sm font-medium transition-all duration-200`}
             >
               Entrar
             </button>
@@ -246,16 +217,17 @@ export default function LoginPage() {
               onClick={() => setActiveTab('signup')}
               className={`${
                 activeTab === 'signup'
-                  ? 'border-indigo-500 text-indigo-600'
-                  : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-              } whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium`}
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-muted-foreground hover:border-border hover:text-foreground'
+              } whitespace-nowrap border-b-2 px-1 py-3 text-sm font-medium transition-all duration-200`}
             >
               Cadastrar
             </button>
           </nav>
         </div>
 
-        <div>
+        {/* Formulario */}
+        <div className="animate-slide-up">
           {activeTab === 'login' ? <LoginForm /> : <SignUpForm />}
         </div>
       </div>

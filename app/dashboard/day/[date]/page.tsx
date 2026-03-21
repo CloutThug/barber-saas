@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase-server'
 import Link from 'next/link'
-import { addHours, format, isValid, parseISO, startOfDay } from 'date-fns'
+import { addHours, format, isToday, isValid, parseISO, startOfDay } from 'date-fns'
+import { formatBR, toBrasilia } from '@/lib/date'
 
 interface Appointment {
   id: string
@@ -16,19 +17,19 @@ const STATUS_BADGES: Record<
 > = {
   scheduled: {
     label: 'Agendado',
-    className: 'bg-indigo-100 text-indigo-700 ring-indigo-200',
+    className: 'bg-primary/20 text-primary ring-primary/30',
   },
   canceled: {
     label: 'Cancelado',
-    className: 'bg-rose-100 text-rose-700 ring-rose-200',
+    className: 'bg-destructive/20 text-destructive ring-destructive/30',
   },
   done: {
     label: 'Concluído',
-    className: 'bg-emerald-100 text-emerald-700 ring-emerald-200',
+    className: 'bg-primary/20 text-primary ring-primary/30',
   },
   default: {
     label: 'Sem status',
-    className: 'bg-gray-100 text-gray-600 ring-gray-200',
+    className: 'bg-muted text-muted-foreground ring-border',
   },
 }
 
@@ -42,7 +43,7 @@ export default async function DayPage(props: DayPageProps) {
 
   if (!isValid(parsedDate)) {
     return (
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-card rounded-lg shadow p-6">
         <p className="text-red-600">Data inválida.</p>
       </div>
     )
@@ -57,7 +58,7 @@ export default async function DayPage(props: DayPageProps) {
 
   if (userError || !user) {
     return (
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-card rounded-lg shadow p-6">
         <p className="text-red-600">Erro ao verificar usuário.</p>
       </div>
     )
@@ -71,7 +72,7 @@ export default async function DayPage(props: DayPageProps) {
 
   if (profileError || !profile?.tenant_id) {
     return (
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-card rounded-lg shadow p-6">
         <p className="text-red-600">Erro ao buscar informações do usuário.</p>
       </div>
     )
@@ -98,7 +99,7 @@ export default async function DayPage(props: DayPageProps) {
     .order('scheduled_at', { ascending: true })
 
   const appointmentsByHour = (appointments || []).reduce((acc, apt) => {
-    const hour = format(new Date(apt.scheduled_at), 'HH:00')
+    const hour = formatBR(apt.scheduled_at, 'HH:00')
     if (!acc[hour]) {
       acc[hour] = []
     }
@@ -108,32 +109,41 @@ export default async function DayPage(props: DayPageProps) {
 
   const hoursStart = 7
   const hoursEnd = 21
+  const now = toBrasilia(new Date())
+  const currentHour = now.getHours()
+  const isTodayView = isToday(parsedDate)
+
   const hours = Array.from({ length: hoursEnd - hoursStart + 1 }, (_, index) => {
     const hour = hoursStart + index
     return `${hour.toString().padStart(2, '0')}:00`
+  }).filter((hour) => {
+    // Se for hoje, só mostra horários a partir da hora atual
+    if (!isTodayView) return true
+    const hourNum = parseInt(hour)
+    return hourNum >= currentHour
   })
 
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
             Agenda do dia
           </h1>
-          <p className="mt-2 text-sm text-gray-700">
+          <p className="mt-2 text-sm text-muted-foreground">
             {format(parsedDate, 'dd/MM/yyyy')}
           </p>
         </div>
         <Link
           href={`/dashboard/appointments/new?date=${date}`}
-          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
+          className="rounded-md bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90"
         >
           + Novo Agendamento
         </Link>
       </div>
 
-      <div className="bg-white rounded-lg shadow">
-        <div className="divide-y divide-gray-200">
+      <div className="bg-card rounded-lg shadow animate-fade-in">
+        <div className="divide-y divide-border stagger-list">
           {hours.map((hour) => {
             const slotAppointments = appointmentsByHour[hour] || []
             const addLink = `/dashboard/appointments/new?date=${encodeURIComponent(
@@ -143,14 +153,14 @@ export default async function DayPage(props: DayPageProps) {
             return (
               <div key={hour} className="px-6 py-4">
                 <div className="flex items-start justify-between gap-6">
-                  <div className="w-24 text-sm font-semibold text-gray-700">
+                  <div className="w-24 text-sm font-semibold text-muted-foreground">
                     {hour}
                   </div>
                   <div className="flex-1">
                     {slotAppointments.length === 0 ? (
                       <Link
                         href={addLink}
-                        className="inline-flex items-center justify-center rounded-md border border-dashed border-gray-300 px-3 py-2 text-sm text-gray-600 hover:border-indigo-400 hover:text-indigo-600"
+                        className="inline-flex items-center justify-center rounded-md border border-dashed border-border px-3 py-2 text-sm text-muted-foreground hover:border-primary hover:text-primary"
                       >
                         +
                       </Link>
@@ -163,12 +173,12 @@ export default async function DayPage(props: DayPageProps) {
                           return (
                             <div
                               key={apt.id}
-                              className="rounded-md border border-indigo-200 bg-indigo-50 px-3 py-2 text-sm"
+                              className="rounded-md border border-primary/30 bg-primary/10 px-3 py-2 text-sm"
                             >
-                              <div className="font-semibold text-gray-900">
+                              <div className="font-semibold text-foreground">
                                 {apt.customers?.name || 'Sem nome'}
                               </div>
-                              <div className="text-gray-700">
+                              <div className="text-muted-foreground">
                                 {apt.services?.name || 'Serviço'}
                               </div>
                               <span
@@ -182,7 +192,7 @@ export default async function DayPage(props: DayPageProps) {
                       </div>
                     )}
                   </div>
-                  <div className="w-24 text-right text-xs text-gray-400">
+                  <div className="w-24 text-right text-xs text-muted-foreground">
                     {slotAppointments.length > 0
                       ? `${slotAppointments.length} agendamento(s)`
                       : 'Livre'}
