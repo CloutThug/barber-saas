@@ -1,37 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Barber SaaS - Sistema de Gestao e Agendamento para Barbearias
 
-## Getting Started
+**Projeto academico desenvolvido para a disciplina de Projeto do curso de Analise e Desenvolvimento de Sistemas (ADS) da Univali.**
 
-First, run the development server:
+O Barber SaaS e um Software as a Service (SaaS) que digitaliza a gestao de barbearias locais, substituindo agendas manuais por um sistema automatizado de agendamentos, controle de clientes e fidelizacao por assinatura (plano mensalista).
+
+---
+
+## Stack Tecnologica
+
+| Camada | Tecnologia |
+|--------|-----------|
+| **Framework** | Next.js 16 (App Router) |
+| **Linguagem** | TypeScript |
+| **Estilizacao** | Tailwind CSS 4 + ShadcnUI |
+| **Backend / Banco de Dados** | Supabase (PostgreSQL) |
+| **Autenticacao** | Supabase Auth |
+| **Deploy** | Vercel |
+| **Metodologia** | SCRUM (gerenciado via Notion) |
+
+## Arquitetura Multi-tenant
+
+O sistema utiliza uma arquitetura **multi-tenant com isolamento por `tenant_id`**, permitindo que multiplas barbearias utilizem a mesma instancia da aplicacao com total separacao de dados.
+
+- **Isolamento de dados:** Cada registro nas tabelas principais (`customers`, `appointments`, `services`, `subscriptions`) possui um `tenant_id` vinculado a barbearia proprietaria.
+- **Row Level Security (RLS):** Politicas no Supabase garantem que cada usuario autenticado so acesse dados do seu proprio tenant.
+- **Funcao auxiliar:** A funcao `is_my_tenant(row_tenant_id)` valida o acesso em nivel de banco de dados.
+
+## Funcionalidades
+
+- Calendario mensal com visualizacao de agendamentos
+- Agenda diaria com slots de horario (oculta horarios passados)
+- Cadastro de clientes (avulso ou mensalista)
+- CRUD de servicos com preco e duracao
+- Gestao de planos mensais (mensalistas)
+- Controle de assinaturas e renovacao
+- Autenticacao com email/senha
+- Tema dark premium com acentos dourados
+- Interface responsiva (desktop e mobile com sidebar colapsavel)
+
+## Como Executar
+
+### Pre-requisitos
+
+- Node.js 18+
+- Conta no [Supabase](https://supabase.com)
+
+### Instalacao
 
 ```bash
+# Clone o repositorio
+git clone https://github.com/CloutThug/barber-saas.git
+cd barber-saas
+
+# Instale as dependencias
+npm install
+
+# Configure as variaveis de ambiente
+cp .env.example .env.local
+# Edite .env.local com as credenciais do seu projeto Supabase
+
+# Execute o servidor de desenvolvimento
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+O sistema estara disponivel em `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Variaveis de Ambiente
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Consulte o arquivo `.env.example` para a lista completa de variaveis necessarias.
 
-## Learn More
+## Estrutura do Projeto
 
-To learn more about Next.js, take a look at the following resources:
+```
+app/                    # Rotas (Next.js App Router)
+  dashboard/            # Area autenticada (agenda, clientes, servicos, planos)
+  login/                # Autenticacao
+  auth/                 # Callbacks e signout
+components/             # Componentes React (UI, dashboard, sidebar, header)
+lib/                    # Clientes Supabase (server/browser) e utilitarios
+types/                  # Tipos TypeScript gerados do Supabase
+supabase/               # Migracoes SQL e funcoes de banco
+docs/                   # Documentacao academica (relatorio PDF)
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Documentacao Academica
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+O relatorio completo do projeto esta disponivel na pasta [`/docs`](./docs) deste repositorio.
 
-## Deploy on Vercel
+## Autor
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Desenvolvido por **Joao Pedro Possan Foschiera** como projeto academico para a Univali - Campus Florianopolis.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Licenca
 
+Projeto academico - uso educacional.
