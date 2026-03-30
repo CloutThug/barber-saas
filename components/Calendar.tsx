@@ -91,8 +91,8 @@ export default async function Calendar({ year, month }: CalendarProps) {
 
   const prevMonth = subMonths(currentDate, 1)
   const nextMonth = addMonths(currentDate, 1)
-  const prevMonthUrl = `/dashboard?month=${prevMonth.getMonth()}&year=${prevMonth.getFullYear()}`
-  const nextMonthUrl = `/dashboard?month=${nextMonth.getMonth()}&year=${nextMonth.getFullYear()}`
+  const prevMonthUrl = `/dashboard/agenda?month=${prevMonth.getMonth()}&year=${prevMonth.getFullYear()}`
+  const nextMonthUrl = `/dashboard/agenda?month=${nextMonth.getMonth()}&year=${nextMonth.getFullYear()}`
 
   const weekDays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
 
