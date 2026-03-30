@@ -13,13 +13,14 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import { CalendarDaysIcon, UsersIcon, ScissorsIcon, CreditCardIcon, CrownIcon, LogOutIcon } from "lucide-react"
+import { LayoutDashboardIcon, CalendarDaysIcon, UsersIcon, ScissorsIcon, CreditCardIcon, CrownIcon, LogOutIcon } from "lucide-react"
 import Link from "next/link"
 import { createClient } from "@/lib/supabase-browser"
 import { useRouter } from "next/navigation"
 
 const navItems = [
-  { title: "Agenda", href: "/dashboard", icon: CalendarDaysIcon },
+  { title: "Dashboard", href: "/dashboard", icon: LayoutDashboardIcon },
+  { title: "Agenda", href: "/dashboard/agenda", icon: CalendarDaysIcon },
   { title: "Clientes", href: "/dashboard/customers", icon: UsersIcon },
   { title: "Mensalistas", href: "/dashboard/subscriptions", icon: CrownIcon },
   { title: "Serviços", href: "/dashboard/servicos", icon: ScissorsIcon },
